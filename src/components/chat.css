@@ -1,0 +1,131 @@
+:root {
+  --chatAreaHeight:500px;
+}
+
+.top-bar{
+  height: 40px;
+  width: 100%;
+  background-color: #343541;
+}
+.top-bar>div{
+  display: flex;
+  margin: auto;
+  width: fit-content;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+/* .input-field{
+  position: fixed;
+  float: right;
+} */
+
+.content{
+  background-color: #343541;
+  opacity: 0.9;
+  height: var(--chatAreaHeight);
+  overflow: auto;
+  scroll-behavior: auto;
+}
+.content>div{
+  width: 65%;
+  margin: auto;
+  color: black;
+  padding: 20px;
+  height: fit-content;
+}
+.question-content{
+  width: 75%;
+  margin: auto;
+  display: flex;
+  gap: 10px;
+  background-color: #7f8091;
+  color: black;
+  padding: 20px;
+  height: fit-content;
+}
+.answer-content{
+  width: 75%;
+  display: flex;
+  gap: 10px;
+  background-color: black;
+  color: white;
+  margin: auto;
+  padding: 20px;
+  height: fit-content;
+}
+.input-box {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  align-self: center;
+  background-color: #343541;
+  padding: 10px;
+  
+}
+.input-field{
+  width: 50%;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 13px;
+  padding-left: 10px;
+  background-color: #40414f;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1); /* Add a shadow to the bottom to make it look like it's floating */
+}
+.arrow-chat-after-input{
+  width: 23px;
+  height: 25px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.arrow-chat-before-input{
+  opacity: 0.3;
+  width: 20px;
+  height: 25px;
+  vertical-align: middle;
+}
+.empty-chat-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90% !important;
+}
+.chat-icon{
+  width: 200px;
+  opacity: 0.6;
+}
+.ai-icon{
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 100%;
+  background-color: #343541;
+}
+
+
+
+
+
+
+:where(.css-dev-only-do-not-override-amq5gd).ant-input-affix-wrapper:focus, :where(.css-dev-only-do-not-override-amq5gd).ant-input-affix-wrapper:focus-within{
+  background-color: #40414f;
+}
+:where(.css-dev-only-do-not-override-amq5gd).ant-input-affix-wrapper:hover{
+  background-color: #40414f
+  ;
+}
+:where(.css-dev-only-do-not-override-amq5gd).ant-input-affix-wrapper >input.ant-input{
+  background-color: #40414f;
+  color: white;
+  font-size: 18px;
+}
+.ant-input::placeholder{
+  color: #7f8091;
+}
