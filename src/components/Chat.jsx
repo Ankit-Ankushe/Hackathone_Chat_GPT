@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './chat.css';
-import { Input } from 'antd';
+import { Input, Spin } from 'antd';
 import '../common.css'
 import RightArrow from '../images/right-arrow-chat.png';
 import RightArrowDone from '../images/right-arrow-done.png';
@@ -19,7 +19,15 @@ const Chat = () => {
   const [inputClicked, setInputClicked] = useState(false);
   const [question, setQuestion] = useState("");
   const [responseAnswer, setResponseAnswer] = useState("");
-  const bottomRef = useRef(null);
+  const scrollableElementRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+
+
+  const scrollToBottom = () => {
+    if (scrollableElementRef.current) {
+      scrollableElementRef.current.scrollTop = scrollableElementRef.current.scrollHeight;
+    }
+  }
 
   const onInputChange = (e) => {
     setQuestion(e);
@@ -30,10 +38,13 @@ const Chat = () => {
     } else {
       setInputClicked(false);
     }
-
   }, [question])
+  useEffect(() => {
+    scrollToBottom();
+  }, [data])
 
   const getChatResponse = async (question) => {
+    setLoading(true);
     var formdata = new FormData();
     formdata.append("query", question);
 
@@ -52,22 +63,23 @@ const Chat = () => {
         }
         setData([...data, obj]);
         setResponseAnswer(result);
+        setLoading(false);
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {
+        console.log('error', error);
+        setLoading(false);
+      });
   };
 
   const onSendButtonClicked = () => {
     getChatResponse(question)
     setQuestion("")
   }
-  const scrollToBottom =  () => {
-    // bottomRef.current.s;
-    // <button onClick={scrollToBottom}>bottom</button>
-  }
+
   return (
     <div>
       <div className='top-bar'><div>Chat with Pdf </div> </div>
-      <div className='content' ref={bottomRef}>
+      <div className='content' ref={scrollableElementRef}>
         {data?.map((item) => (
 
           <div>
@@ -75,20 +87,18 @@ const Chat = () => {
               <img className='ai-icon' src={HumanIcon} alt="chat icon" />
               <div className='question-content-text'> {item.question}</div>
             </div>
-            
-              <div className='answer-content'>
-                <img className='ai-icon' src={AiIcon} alt="chat icon" />
-                <div className='answer-content-text'>
-                  <AIWriter>
-                    {item.answer}
-                  </AIWriter>
-                </div>
+
+            <div className='answer-content'>
+              <img className='ai-icon' src={AiIcon} alt="chat icon" />
+              <div className='answer-content-text'>
+                <AIWriter>
+                  {item.answer}
+                </AIWriter>
               </div>
-            
+            </div>
+
           </div>
         ))}
-        {/* <div className='question-content'>{responseAnswer}</div>
-         <div className='answer-content'>{responseAnswer}</div> */}
         {(data.length == 0) ?
           <div className='empty-chat-content'>
             <img className='chat-icon' src={ChatIcon} alt="chat icon" />
@@ -106,7 +116,7 @@ const Chat = () => {
           }} className='input-field' placeholder='Send a message'
           onPressEnter={onSendButtonClicked}
           suffix={
-            <div>{
+            loading ? <Spin /> : <div>{
               (inputClicked) ? <img className='arrow-chat-after-input' onClick={onSendButtonClicked} src={RightArrowDone}></img> : <img className='arrow-chat-before-input' src={RightArrow}></img>
             } </div>
           }
